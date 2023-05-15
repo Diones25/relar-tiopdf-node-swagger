@@ -1,0 +1,303 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "Api de manipulação de produtos",
+    "description": "Essa API de como manipulação de produtos",
+    "termsOfService": "http://localhost:3335/terms",
+    "contact": {
+      "email": "pereiradiones987@gmail.com"
+    },
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3335",
+      "description": "API de teste"
+    }
+  ],
+  "paths": {
+    "/products": {
+      "post": {
+        "sumary": "Cadastro de produto",
+        "description": "Essa rota será responsável por cadastrar um novo produto",
+        "tags": ["Products"],
+        "requestBody": {
+          "content": {
+            "applicattion/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "product": {
+                  "value": {
+                    "name": "Mouse USB",
+                    "description": "Mouse USB RGB Redragon",
+                    "price": 96.75,
+                    "quantity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created",
+            "content": {
+              "applicattion/json":{
+                "schema":{
+                  "type": "object",
+                  "$ref":"#/components/schemas/Product"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Produto já existe"
+          }
+        }
+      },
+      "get": {
+        "sumary": "Listagem de produtos",
+        "description": "Essa rota será responsável por listar todos os produtos",
+        "tags": ["Products"],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "applicattion/json":{
+                "schema":{
+                  "type": "object",
+                  "$ref":"#/components/schemas/Products"
+                },
+                "examples": {
+                  "product": {
+                    "value": [
+                      {
+                        "id": 1,
+                        "name": "Mouse USB",
+                        "description": "Mouse USB RGB Redragon",
+                        "price": 96.75,
+                        "quantity": 1,
+                        "createdAt": "2023-05-15T13:19:25.000Z",
+                        "updatedAt": "2023-05-15T13:19:25.000Z"
+                      },
+                      {
+                        "id": 2,
+                        "name": "teclado Gamer ASUS",
+                        "description": "Teclado Gamer com RGB ASUS",
+                        "price": 123.75,
+                        "quantity": 2,
+                        "createdAt": "2023-05-15T13:19:25.000Z",
+                        "updatedAt": "2023-05-15T13:19:25.000Z"
+                      },
+                      {
+                        "id": 3,
+                        "name": "Processador Intel i5 11400f",
+                        "description": "Processador intel 11400f de alta performace",
+                        "price": 996.75,
+                        "quantity": 1,
+                        "createdAt": "2023-05-15T13:19:25.000Z",
+                        "updatedAt": "2023-05-15T13:19:25.000Z"
+                      }
+                    ]
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      }
+    },
+    "/products/:id": {
+      "get": {
+        "sumary": "Listagem de produto",
+        "description": "Essa rota será responsável por listar um produto pelo id",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "id": "id",
+            "in": "path",
+            "description": "id do produto",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "applicattion/json":{
+                "schema":{
+                  "type": "object",
+                  "$ref":"#/components/schemas/ProductId"
+                },
+                "examples": {
+                  "product": {
+                    "value": {
+                      "id": 1,
+                      "name": "Mouse USB",
+                      "description": "Mouse USB RGB Redragon",
+                      "price": 96.75,
+                      "quantity": 1,
+                      "createdAt": "2023-05-15T13:19:25.000Z",
+                      "updatedAt": "2023-05-15T13:19:25.000Z"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      },
+      "put": {
+        "sumary": "Editar um produto",
+        "description": "Essa rota será responsável por editar um produto pelo id",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "id": "id",
+            "in": "path",
+            "description": "id do produto",
+            "required": true
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "applicattion/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Product"
+              },
+              "examples": {
+                "product": {
+                  "value": {
+                    "name": "Mouse USB",
+                    "description": "Mouse USB RGB Redragon",
+                    "price": 96.75,
+                    "quantity": 1
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": {
+            "description": "Created"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      },
+      "delete": {
+        "sumary": "Editar um produto",
+        "description": "Essa rota será responsável por remover um produto pelo id",
+        "tags": ["Products"],
+        "parameters": [
+          {
+            "id": "id",
+            "in": "path",
+            "description": "id do produto",
+            "required": true
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Produto removido com sucesso"
+          },
+          "404": {
+            "description": "Produto não encontrado"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Product": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "number"
+          }
+        }
+      },
+      "ProductId": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "number"
+          },
+          "updatedAt": {
+            "type": "number"
+          }
+        }
+      },
+      "Products": {
+        "type": "array",
+        "items": {
+          "$ref":"#/components/schemas/ProductsArray"
+        }
+      },
+      "ProductsArray": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "description": {
+            "type": "string"
+          },
+          "price": {
+            "type": "number",
+            "format": "double"
+          },
+          "quantity": {
+            "type": "number"
+          },
+          "createdAt": {
+            "type": "string"
+          },
+          "updatedAt": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  }
+} 
